@@ -32,7 +32,7 @@ However, if an article is written by an Author who writes for <strong>The Onion<
     &emsp; -Once scraped, connect the scraped results to the API Implementation <br>
  </p>
 <br>
-<h2>Knowledge required:</h2>
+<h2>Knowledge required (We can learn as we go):</h2>
 <p>
 -WebScraper: <br>
     &emsp; -Python <br>
@@ -57,6 +57,8 @@ https://trello.com/b/xPdcngPr  <br>
 <h2>Contact</h2>
 <p>
   Project Owner: <strong>Daniel Visca</strong> <br>
-  email: <strong>daniel.visca@mail.utoronto.ca</strong>
-  <br> phone number: <strong> +1 (514) 889-6686 </strong> 
+  email: <strong>daniel.visca@mail.utoronto.ca</strong> <br> 
+  phone number: <strong> +1 (514) 889-6686 </strong> <br>
+  <br>
+  If you would like any clarification, or would like to get together in person to work on this please reach out!
 </p>
