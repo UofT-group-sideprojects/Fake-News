@@ -50,9 +50,9 @@ However, if an article is written by an Author who writes for <strong>The Onion<
     &emsp; -useful link https://developer.chrome.com/extensions/getstarted <br>
 </p>
 
-<h2>Trello Board</h2>
+<h2>Project Board</h2>
 <p>
-https://trello.com/b/xPdcngPr  <br>
+https://github.com/orgs/UofT-group-sideprojects/projects/2  <br>
 </p>
 <h2>Contact</h2>
 <p>
