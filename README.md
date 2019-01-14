@@ -21,6 +21,7 @@ However, if an article is written by an Author who writes for <strong>The Onion<
 <p>
 -WebScraper: <br>
     &emsp; -search through the text on a page for words that match a regex <br>
+    &emsp; -This will be incredibly helpful: https://github.com/codelucas/newspaper <br>
 -API search:<br>
     &emsp; -Find an API that returns an authors reputation (Alternatively if they are peer reviewed or other criterea) <br>
     &emsp; -Find an API that returns the reputation of a site (Minimum Viable product, hard code some site reliabilities) <br>
