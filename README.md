@@ -24,8 +24,8 @@ However, if an article is written by an Author who writes for <strong>The Onion<
 -API search:<br>
     &emsp; -Find an API that returns an authors reputation (Alternatively if they are peer reviewed or other criterea) <br>
     &emsp; &emsp; -Sites to look into: <br>
-    &emsp; &emsp; &emsp; Outs Bad Articles: Haux.com, Snopps <br>
-    &emsp; &emsp; &emsp; Reputation of good articles: Retraction Watch (Has Database), Google Scholar Index(higher ranked, higher impact), <br>  &emsp; &emsp; &emsp; look into 'impact factor' <br>
+    &emsp; &emsp; &emsp; Outs Bad Articles: Haux.com, Snopps, Retraction Watch (Has Database) <br>
+    &emsp; &emsp; &emsp; Reputation of good articles: Google Scholar Index(higher ranked, higher impact), <br>  &emsp; &emsp; &emsp; look into 'impact factor' <br>
     &emsp; -Find an API that returns the reputation of a site (Minimum Viable product, hard code some site reliabilities) <br>
 -API implementation: <br>
     &emsp; -Connect to API <br>
