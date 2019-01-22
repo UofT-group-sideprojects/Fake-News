@@ -19,7 +19,7 @@ However, if an article is written by an Author who writes for <strong>The Onion<
 
 <h2>What needs to be done:</h2>
 <p>
--Collecting the Article
+-Collecting the Article <br>
     &emsp; -This will be incredibly helpful: https://github.com/codelucas/newspaper <br>
 -API search:<br>
     &emsp; -Find an API that returns an authors reputation (Alternatively if they are peer reviewed or other criterea) <br>
@@ -34,7 +34,7 @@ However, if an article is written by an Author who writes for <strong>The Onion<
 <br>
 <h2>Knowledge required (We can learn as we go):</h2>
 <p>
--Collecting the Article
+-Collecting the Article <br>
     &emsp; -Python <br>
     &emsp; -Regular Expressions <br>
     &emsp; -Unknowns <br>
