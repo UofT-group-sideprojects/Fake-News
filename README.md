@@ -19,8 +19,7 @@ However, if an article is written by an Author who writes for <strong>The Onion<
 
 <h2>What needs to be done:</h2>
 <p>
--WebScraper: <br>
-    &emsp; -search through the text on a page for words that match a regex <br>
+-Collecting the Article
     &emsp; -This will be incredibly helpful: https://github.com/codelucas/newspaper <br>
 -API search:<br>
     &emsp; -Find an API that returns an authors reputation (Alternatively if they are peer reviewed or other criterea) <br>
@@ -35,12 +34,11 @@ However, if an article is written by an Author who writes for <strong>The Onion<
 <br>
 <h2>Knowledge required (We can learn as we go):</h2>
 <p>
--WebScraper: <br>
+-Collecting the Article
     &emsp; -Python <br>
-    &emsp; -Beautiful Soup <br>
     &emsp; -Regular Expressions <br>
     &emsp; -Unknowns <br>
-    &emsp; -A useful walk through:  https://first-web-scraper.readthedocs.io/en/latest/ <br>
+    &emsp; -A useful walk through of web scrapers (not required):  https://first-web-scraper.readthedocs.io/en/latest/ <br>
 -API search:<br>
     &emsp; -Understand how API's work and API endpoints <br>
 -API implementation: <br>
