@@ -15,7 +15,10 @@ and then represent on a scale how likely this article is to be reliable.
 For instance, if an article is written by an author that works for <strong>The Economist</strong>, their sources are also by well established reporters and the site it is published on is trusted. The article will be marked as likely to contain reliable information.
 
 However, if an article is written by an Author who writes for <strong>The Onion</strong>, they have no sources and the article is posted on the onion. It will be marked as unreliable.
+
+Another way to check the reputation is check for spelling mistakes. Look into how spam mail is recognized. Look for lots of capitalization or exlamation marks
 </p>
+
 
 <h2>What needs to be done:</h2>
 <p>
