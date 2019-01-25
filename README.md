@@ -17,6 +17,8 @@ For instance, if an article is written by an author that works for <strong>The E
 However, if an article is written by an Author who writes for <strong>The Onion</strong>, they have no sources and the article is posted on the onion. It will be marked as unreliable.
 
 Another way to check the reputation is check for spelling mistakes. Look into how spam mail is recognized. Look for lots of capitalization or exlamation marks
+
+Issues to consider. Having many dependincies means many things can break
 </p>
 
 
