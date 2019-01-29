@@ -15,14 +15,22 @@ and then represent on a scale how likely this article is to be reliable.
 For instance, if an article is written by an author that works for <strong>The Economist</strong>, their sources are also by well established reporters and the site it is published on is trusted. The article will be marked as likely to contain reliable information.
 
 However, if an article is written by an Author who writes for <strong>The Onion</strong>, they have no sources and the article is posted on the onion. It will be marked as unreliable.
+
+Another way to check the reputation is check for spelling mistakes. Look into how spam mail is recognized. Look for lots of capitalization or exlamation marks
+
+Issues to consider. Having many dependincies means many things can break
 </p>
+
 
 <h2>What needs to be done:</h2>
 <p>
--WebScraper: <br>
-    &emsp; -search through the text on a page for words that match a regex <br>
+-Collecting the Article <br>
+    &emsp; -This will be incredibly helpful: https://github.com/codelucas/newspaper <br>
 -API search:<br>
     &emsp; -Find an API that returns an authors reputation (Alternatively if they are peer reviewed or other criterea) <br>
+    &emsp; &emsp; -Sites to look into: <br>
+    &emsp; &emsp; &emsp; Outs Bad Articles: Haux.com, Snopps, Retraction Watch (Has Database) <br>
+    &emsp; &emsp; &emsp; Reputation of good articles: Google Scholar Index(higher ranked, higher impact), <br>  &emsp; &emsp; &emsp; look into 'impact factor' <br>
     &emsp; -Find an API that returns the reputation of a site (Minimum Viable product, hard code some site reliabilities) <br>
 -API implementation: <br>
     &emsp; -Connect to API <br>
@@ -34,12 +42,11 @@ However, if an article is written by an Author who writes for <strong>The Onion<
 <br>
 <h2>Knowledge required (We can learn as we go):</h2>
 <p>
--WebScraper: <br>
+-Collecting the Article <br>
     &emsp; -Python <br>
-    &emsp; -Beautiful Soup <br>
     &emsp; -Regular Expressions <br>
     &emsp; -Unknowns <br>
-    &emsp; -A useful walk through:  https://first-web-scraper.readthedocs.io/en/latest/ <br>
+    &emsp; -A useful walk through of web scrapers (not required):  https://first-web-scraper.readthedocs.io/en/latest/ <br>
 -API search:<br>
     &emsp; -Understand how API's work and API endpoints <br>
 -API implementation: <br>
@@ -50,9 +57,9 @@ However, if an article is written by an Author who writes for <strong>The Onion<
     &emsp; -useful link https://developer.chrome.com/extensions/getstarted <br>
 </p>
 
-<h2>Trello Board</h2>
+<h2>Project Board</h2>
 <p>
-https://trello.com/b/xPdcngPr  <br>
+https://github.com/orgs/UofT-group-sideprojects/projects/2  <br>
 </p>
 <h2>Contact</h2>
 <p>
