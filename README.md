@@ -35,9 +35,7 @@ Issues to consider. Having many dependincies means many things can break
 -API implementation: <br>
     &emsp; -Connect to API <br>
 -Chrome Extension: <br>
-    &emsp; -Build a Chrome Extension <br>
-    &emsp; -Connect the Webscraper to the current page with a button to 'Scrape' <br>
-    &emsp; -Once scraped, connect the scraped results to the API Implementation <br>
+    &emsp; -Send the url to the python app through sockets <br>
  </p>
 <br>
 <h2>Knowledge required (We can learn as we go):</h2>
