@@ -14,13 +14,13 @@ Areas to focus on:
 """
 class GatherFakeNews():
 
-    def __init__(self, list_of_ousting_sites):
+    def __init__(self, list_of_ousting_sites: list) -> None:
         """
         Initialize the gathering of fake news articles
         """
         self.sites = list_of_ousting_sites
     
-    def start(self):
+    def start(self) -> None:
         """
         Start the process of scraping and collecting from the given sites
         :return: 
@@ -40,7 +40,7 @@ class GatherFakeNews():
                         
                 self.add_to_database(meta_data)
                 
-    def download(self, article):
+    def download(self, article) -> dict:
         """
         Returns the success status of the Download, parsing and nlp on the given article
         
