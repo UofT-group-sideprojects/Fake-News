@@ -8,20 +8,32 @@ import json
 # regular expressions to search the article for quotes and citations
 import re
 
+import asyncio
+
 import socket
 
+
+# async def listen(socket, path):
+#     name = await socket.recv()
+#     print(f"< {name}")
+#
+# start_server = socket.getservbyport(12345, 'localhost')
+# asyncio.get_event_loop().run_until_complete(start_server)
+# asyncio.get_event_loop().run_forever()
 HOST = '127.0.0.1'
-PORT = 8484
+PORT = 12345
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
 s.bind((HOST, PORT))
-s.listen(2)
+s.listen(1)
 
 class ArticleReputation():
     def __init__(self):
         """
         Initialize building the reputation for an Article
         """
-        #self.url = url
+        self.url = ""
         #self.get_article()
 
     def check_grammar(self, text):
@@ -44,16 +56,22 @@ class ArticleReputation():
         Listen for a url from chrome extension
         :return:
         """
-        print("Waiting")
-        conn1, addr1 = s.accept()
-        print('Connected by', addr1)
-
+        #print("Waiting")
+        #conn1, addr1 = s.accept()
+        #print('Connected by', addr1)
+        print("entering while loop")
         while 1:
+
+            conn1, addr1 = s.accept()
+            #cfile = conn1.makefile('rw', 0)
+
+
             try:
                 data = conn1.recv(1024)
             except socket.error:
                 print('error')
             if data:
+                print("Data Recieved")
                 print(data.decode('utf-8'))
                 self.url = data.decode('utf-8')
 
@@ -170,7 +188,7 @@ class ArticleReputation():
 
 AR = ArticleReputation()
 AR.socket()
-AR.get_article()
-AR.collect_quotes()
-AR.reputation()
+#AR.get_article()
+#AR.collect_quotes()
+#AR.reputation()
 
