@@ -14,6 +14,18 @@ import pprint
 
 from pymongo import MongoClient
 
+#Server
+# import http.server
+# import socketserver
+#
+# PORT = 8080
+# Handler = http.server.SimpleHTTPRequestHandler
+#
+# with socketserver.TCPServer(("", PORT), Handler) as httpd:
+#     print("serving at port", PORT)
+#     httpd.serve_forever()
+#end of server
+
 import sys
 
 client = MongoClient()
@@ -27,13 +39,13 @@ db = client['true-news']
 # start_server = socket.getservbyport(12345, 'localhost')
 # asyncio.get_event_loop().run_until_complete(start_server)
 # asyncio.get_event_loop().run_forever()
-HOST = '127.0.0.1'
-PORT = 12345
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
-s.bind((HOST, PORT))
-s.listen(1)
+# HOST = '127.0.0.1'
+# PORT = 12345
+# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+#
+# s.bind((HOST, PORT))
+# s.listen(1)
 
 class ArticleReputation():
     def __init__(self,url=""):
@@ -44,6 +56,7 @@ class ArticleReputation():
         self.credible_host = 0 #0 is an unknown host, -1 is an unreliable host, 1 is a reliable host (host is the site the news is hosted on)
         self.documents = db.documents
         self.get_article()
+        self.reputation()
 
 
     def check_grammar(self, text):
@@ -89,27 +102,27 @@ class ArticleReputation():
         print(document_id)
         return document_id
 
-    def socket(self):
-        """
-        Listen for a url from chrome extension
-        :return:
-        """
-        #print("Waiting")
-        #conn1, addr1 = s.accept()
-        #print('Connected by', addr1)
-        print("entering while loop")
-        conn1, addr1 = s.accept()
-        while 1:
-            #cfile = conn1.makefile('rw', 0)
-
-            try:
-                data = conn1.recv(1024)
-            except socket.error:
-                print('error')
-            if data:
-                print("Data Recieved")
-                print(data.decode('utf-8'))
-                self.url = data.decode('utf-8')
+    # def socket(self):
+    #     """
+    #     Listen for a url from chrome extension
+    #     :return:
+    #     """
+    #     #print("Waiting")
+    #     #conn1, addr1 = s.accept()
+    #     #print('Connected by', addr1)
+    #     print("entering while loop")
+    #     conn1, addr1 = s.accept()
+    #     while 1:
+    #         #cfile = conn1.makefile('rw', 0)
+    #
+    #         try:
+    #             data = conn1.recv(1024)
+    #         except socket.error:
+    #             print('error')
+    #         if data:
+    #             print("Data Recieved")
+    #             print(data.decode('utf-8'))
+    #             self.url = data.decode('utf-8')
 
 
 
@@ -183,7 +196,7 @@ class ArticleReputation():
             if author_cursor:
                 #author_id = author_cursor["_id"]
                 if document_id != author_cursor["known_articles"]:
-                    db.authors.updateOne({"author":author},{"known_articles":author_cursor["known_articles"].extend(document_id)} )
+                    db.authors.updateOne({"author":author},{"known_articles":author_cursor["known_articles"].extend(document_id)})
             else:
                 db.authors.insert_one({
                     "author": author,
@@ -195,23 +208,31 @@ class ArticleReputation():
         Calulates how likely this article is to be trust worthy
         :return:
         """
+        rep_dict = {}
 
         if self.text != "":
             grammar_mistakes = self.check_grammar(self.text)
             if grammar_mistakes > 0:
                 print("This article has "+ str(grammar_mistakes)+" spelling mistakes")
+                rep_dict["grammar_mistakes"] = "This article has "+ str(grammar_mistakes)+" spelling mistakes"
             else:
                 print("This article does not have any spelling mistakes")
+                rep_dict["grammar_mistakes"] = "This article does not have any spelling mistakes"
 
         bad_news = self.check_bad_newsource()
         reliable_news = self.check_reliable_news()
 
         if bad_news:
             print("This article is from a source that is known for hosting unreliable news")
+            rep_dict["news_source"] = "This article is from a source that is known for hosting unreliable news"
         elif reliable_news:
             print("This article is from a reliable news source")
+            rep_dict["news_source"] = "This article is from a reliable news source"
         else:
             print("This article is hosted on an unknown news source")
+            rep_dict["news_source"] = "This article is hosted on an unknown news source"
+        return rep_dict
+
 
     def collect_quotes(self):
         """
@@ -285,7 +306,7 @@ class ArticleReputation():
 
         return False
 
-AR = ArticleReputation("https://educateinspirechange.org/nature/earth/cigarette-butts-are-the-oceans-single-largest-source-of-pollution/?fbclid=IwAR1z7VY0ZNpG2JkcWrRixiJvt2G0HAnX-3JTGnU6MLD4meO3jF5zhjzhRVc")
+#AR = ArticleReputation("https://educateinspirechange.org/nature/earth/cigarette-butts-are-the-oceans-single-largest-source-of-pollution/?fbclid=IwAR1z7VY0ZNpG2JkcWrRixiJvt2G0HAnX-3JTGnU6MLD4meO3jF5zhjzhRVc")
 # AR.authors = "test_authors"
 # AR.title = "test title"
 # AR.text = "test text"
@@ -293,6 +314,6 @@ AR = ArticleReputation("https://educateinspirechange.org/nature/earth/cigarette-
 #AR.add_article_to_db()
 #AR.socket()
 #AR.get_article()
-AR.collect_quotes()
-AR.reputation()
+# AR.collect_quotes()
+# AR.reputation()
 
