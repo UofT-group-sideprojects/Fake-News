@@ -1,9 +1,11 @@
 from nltk.corpus import stopwords, sentiwordnet as swn
+import nltk
 import requests
 import json
 import re
 from pymongo import MongoClient
-
+from sentimentAnalysis import SentimentAnalysis
+import pprint
 #Select Database
 client = MongoClient()
 db = client['true-news']
@@ -43,6 +45,8 @@ credibility score:
 
 title:
 
+// Plagerism (detecting parts of the article in other parts of the web)
+
 """
 class CredibilityCalculator:
     def __init__(self, url):
@@ -51,7 +55,8 @@ class CredibilityCalculator:
         """
         self.credibility_score = None
 
-        self.title = None
+        self.url = url
+        self.title = ""
         self.authors = None
         self.text = None
         self.published = None
@@ -62,7 +67,7 @@ class CredibilityCalculator:
         self.db_doc = None
 
         try:
-            self.getMetaData()
+            self.get_meta_data()
         except:
             print('MetaData was not collected from database')
 
@@ -72,19 +77,31 @@ class CredibilityCalculator:
                 "emotion": None
             },
             "news_source": {
-                "political_leaning": None,
+                "political_leaning": None, # yet to be done
                 "reliability": None,
                 "reliability_source": None
             },
 
         }
 
+    def get_analytics_report(self):
+        self.title_analytics()
+        print(self.analytics_report)
+        return self.analytics_report
 
-    def getMetaData(self):
+    def get_meta_data(self):
         """
         Collect metaData from database
         :return:
         """
+        # results = db.documents.find({"url": self.url})
+        #
+        # if len(results) > 0:
+        #     results = results[0]
+        #     document_id = results['_id']
+
+
+
         document_cursor = db.documents.find_one({"url": self.url})
         if document_cursor:
             document_id = document_cursor["_id"]
@@ -97,10 +114,22 @@ class CredibilityCalculator:
             self.authors = self.db_doc["authors"]
             self.text = self.db_doc["text"]
             self.published = self.db_doc["publish-date"]
-            self.images = self.db_doc["images"]
+            # try:
+            #     self.images = self.db_doc["images"]
+            # except:
+            #     print("images for article " + self.url + " not collected from database")
 
-            self.keywords = self.db_doc["keywords"]
-            self.summary = self.db_doc["summary"]
+            try:
+                self.summary = self.db_doc["summary"]
+            except:
+                print("summary for article " + self.url + " not collected from database")
+
+            try:
+                self.keywords = self.db_doc["keywords"]
+            except:
+                print("keywords for article " + self.url + " not collected from database")
+
+
 
     def title_analytics(self):
         """
@@ -108,16 +137,20 @@ class CredibilityCalculator:
         analyses emotion words, spelling mistakes and exclamations
         :return: float
         """
-        grammar_mistakes = self.grammar_mistakes(self.title)
+        grammar_mistakes = self.check_grammar(self.title)
         title_emotion = self.nltk_emotion_words(self.title)
-        emotion_score = title_emotion["score"]
+        emotion_score = round(title_emotion["score"],4)
         emotion_words = title_emotion["emotion_analytics"]
         self.analytics_report["title"]["grammar"] = grammar_mistakes
-        self.analytics_report["title"]["emotion"] = emotion_words
+        self.analytics_report["title"]["emotion"] = {"emotion_words": emotion_words, "emotion_score": emotion_score}
 
-        grammar_score = len(grammar_mistakes)/len(self.title)
 
-        title_credibility = (emotion_score + grammar_score + self.check_exclamation())/3
+        if self.title:
+            grammar_score = len(grammar_mistakes)/len(self.title)
+
+            title_credibility = (emotion_score + grammar_score + self.check_exclamation(self.title))/3
+        else:
+            title_credibility = 0
         return title_credibility
 
     def news_source_analytics(self):
@@ -149,6 +182,12 @@ class CredibilityCalculator:
         # political_leaning
         # use media bias fact checker as source. look at how the chrome extension gathers this info
 
+    def text_analytics(self):
+        """
+        Return the credibility of the text
+        :return:
+        """
+
     def nltk_emotion_words(self, text):
         """
         Helper Function
@@ -156,34 +195,13 @@ class CredibilityCalculator:
         Returns the average score of emotion words
         :return:
         """
-        text = text.split(" ")
+        if not text:
+            return {"emotion_analytics": None, "score": None}
+        senti_an = SentimentAnalysis(text)
+        emotion_analytics = senti_an.analytics_report
+        score = senti_an.score
 
-        emotion_words = {}
-
-        emotion_score = 0
-        words_counted = 0
-        for word in text:
-            if word in stopwords.words('english'):
-                continue
-
-            analyzed_word = swn.senti_synset(word)
-
-            pos_score = analyzed_word.pos_score()
-            neg_score = analyzed_word.neg_score()
-            obj_score = analyzed_word.obj_score()
-            emotion_score += pos_score
-            emotion_score += neg_score
-            # emotion_score += obj_score
-
-            # build the analytics report
-            emotion_words[word] = {
-                "pos_score": pos_score,
-                "neg_score": neg_score,
-                "obj_score": obj_score
-            }
-
-        score = emotion_score / words_counted
-        return {"emotion_analytics": emotion_words, "score": score}
+        return {"emotion_analytics": emotion_analytics, "score": score}
 
     def check_grammar(self, text):
         """
@@ -195,13 +213,15 @@ class CredibilityCalculator:
         :param text: string
         :return: int
         """
+        if not text:
+            return []
         url = "https://api.textgears.com/check.php?text=" + text + "!&key=75YaNnAeqOCH5nf7"
         response = requests.get(url)
         try:
             json_data = json.loads(response.text)
         except:
             print("JSON data from grammar check could not be loaded")
-            return 0
+            return []
         # num_of_errors = len(json_data["errors"])
         return json_data["errors"]
 
@@ -216,3 +236,4 @@ class CredibilityCalculator:
             if char == "!":
                 return 1
         return 0
+

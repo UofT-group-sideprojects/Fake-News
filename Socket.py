@@ -1,24 +1,7 @@
 from AnalyzeNews import ArticleReputation
-# import asyncio
-# import websockets
-#
-# async def url_response():
-#     async with websockets.connect('ws://localhost:8080') as websocket:
-#         url = await websocket.recv()
-#         print(url)
-#         print(f"< {url}")
-#
-#         AR = AnalyzeNews(url)
-#         reputation = AR.reputation()
-#
-#
-#         await websocket.send(reputation)
-#         print(f"> {AR}")
-#         print("end")
-#
-#
-# asyncio.get_event_loop().run_until_complete(url_response())
-
+from metaDataCollector import MetaDataCollector
+from credibilityCalculator import CredibilityCalculator
+#from Newsfeed import Newsfeed
 from flask import Flask
 from flask_socketio import SocketIO
 
@@ -32,9 +15,28 @@ def handle_connect():
 @socketIO.on('link')
 def handle_link(data):
     link = data['link']
-    reputation = ArticleReputation(str(link))
-    print(reputation)
-    socketIO.emit('reputation', reputation.reputation())
+    print("link: " + link)
+    print(data)
+
+    mdc = MetaDataCollector(link)
+    if mdc.error:
+        socketIO.emit('error', mdc.error_msg)
+        print("error sent on socket")
+    else:
+        cc = CredibilityCalculator(link)
+        socketIO.emit('analytics_report', cc.get_analytics_report())
+        print("sent on socket \n")
+        print(cc.analytics_report)
+
+    # if data['newsfeedButton']:
+    #     all_articles = Newsfeed(str(link))
+    #     print(all_articles)
+    #     socketIO.emit('reputation', all_articles.reputation())
+    # else:
+    #     reputation = ArticleReputation(str(link))
+    #     print(reputation)
+    #     socketIO.emit('reputation', reputation.reputation())
+
 if __name__ == '__main__':
     socketIO.run(app, debug=True)
 
